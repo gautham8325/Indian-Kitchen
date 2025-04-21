@@ -157,12 +157,14 @@ const DailyReports = () => {
               />
             </PopoverContent>
           </Popover>
-          <Button 
+          <Button
             variant="outline"
             onClick={handleRefresh}
             disabled={isLoading}
           >
-            <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
+            <RefreshCw
+              className={`h-4 w-4 mr-2 ${isLoading ? "animate-spin" : ""}`}
+            />
             Refresh
           </Button>
         </div>
@@ -176,13 +178,13 @@ const DailyReports = () => {
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${stats.totalRevenue.toFixed(2)}</div>
-            <p className="text-xs text-muted-foreground">
-              For {displayDate}
-            </p>
+            <div className="text-2xl font-bold">
+              ₹{stats.totalRevenue.toFixed(2)}
+            </div>
+            <p className="text-xs text-muted-foreground">For {displayDate}</p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Total Orders</CardTitle>
@@ -195,25 +197,27 @@ const DailyReports = () => {
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Avg. Order Value</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Avg. Order Value
+            </CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              ${stats.averageOrderValue.toFixed(2)}
+              ₹{stats.averageOrderValue.toFixed(2)}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Per completed order
-            </p>
+            <p className="text-xs text-muted-foreground">Per completed order</p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Completion Rate</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Completion Rate
+            </CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -231,12 +235,13 @@ const DailyReports = () => {
           <CardContent>
             <div className="text-2xl font-bold">
               {stats.totalOrders === 0
-                ? '0%'
-                : `${((stats.completedOrderCount / stats.totalOrders) * 100).toFixed(0)}%`}
+                ? "0%"
+                : `${(
+                    (stats.completedOrderCount / stats.totalOrders) *
+                    100
+                  ).toFixed(0)}%`}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Orders completed
-            </p>
+            <p className="text-xs text-muted-foreground">Orders completed</p>
           </CardContent>
         </Card>
       </div>
@@ -254,14 +259,14 @@ const DailyReports = () => {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="hour" />
                   <YAxis />
-                  <Tooltip formatter={(value) => [`$${value}`, 'Revenue']} />
+                  <Tooltip formatter={(value) => [`₹${value}`, "Revenue"]} />
                   <Bar dataKey="revenue" fill="#8884d8" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader>
             <CardTitle className="text-lg">Order Status</CardTitle>
@@ -278,10 +283,15 @@ const DailyReports = () => {
                     outerRadius={80}
                     fill="#8884d8"
                     dataKey="value"
-                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    label={({ name, percent }) =>
+                      `${name} ${(percent * 100).toFixed(0)}%`
+                    }
                   >
                     {statusBreakdown.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
                     ))}
                   </Pie>
                   <Tooltip />
@@ -314,12 +324,17 @@ const DailyReports = () => {
                     <tr key={index} className="border-b">
                       <td className="p-2">{item.name}</td>
                       <td className="text-right p-2">{item.count}</td>
-                      <td className="text-right p-2">${item.revenue.toFixed(2)}</td>
+                      <td className="text-right p-2">
+                        ₹{item.revenue.toFixed(2)}
+                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={3} className="text-center p-4 text-muted-foreground">
+                    <td
+                      colSpan={3}
+                      className="text-center p-4 text-muted-foreground"
+                    >
                       No items sold for this date
                     </td>
                   </tr>
@@ -353,17 +368,37 @@ const DailyReports = () => {
                   orders.map((order) => (
                     <tr key={order.id} className="border-b">
                       <td className="p-2">{order.id.substring(0, 8)}</td>
-                      <td className="p-2">{format(new Date(order.timestamp), 'HH:mm')}</td>
-                      <td className="p-2">{order.customer?.name || 'Walk-in Customer'}</td>
-                      <td className="text-right p-2">{order.items.reduce((sum, item) => sum + item.quantity, 0)}</td>
-                      <td className="text-right p-2">${order.totalAmount.toFixed(2)}</td>
                       <td className="p-2">
-                        <span className={cn("px-2 py-1 rounded-full text-xs font-medium", {
-                          "bg-yellow-100 text-yellow-800": order.status === 'pending',
-                          "bg-blue-100 text-blue-800": order.status === 'in-progress',
-                          "bg-green-100 text-green-800": order.status === 'completed',
-                          "bg-red-100 text-red-800": order.status === 'cancelled',
-                        })}>
+                        {format(new Date(order.timestamp), "HH:mm")}
+                      </td>
+                      <td className="p-2">
+                        {order.customer?.name || "Walk-in Customer"}
+                      </td>
+                      <td className="text-right p-2">
+                        {order.items.reduce(
+                          (sum, item) => sum + item.quantity,
+                          0
+                        )}
+                      </td>
+                      <td className="text-right p-2">
+                        ₹{order.totalAmount.toFixed(2)}
+                      </td>
+                      <td className="p-2">
+                        <span
+                          className={cn(
+                            "px-2 py-1 rounded-full text-xs font-medium",
+                            {
+                              "bg-yellow-100 text-yellow-800":
+                                order.status === "pending",
+                              "bg-blue-100 text-blue-800":
+                                order.status === "in-progress",
+                              "bg-green-100 text-green-800":
+                                order.status === "completed",
+                              "bg-red-100 text-red-800":
+                                order.status === "cancelled",
+                            }
+                          )}
+                        >
                           {order.status}
                         </span>
                       </td>
@@ -371,7 +406,10 @@ const DailyReports = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={6} className="text-center p-4 text-muted-foreground">
+                    <td
+                      colSpan={6}
+                      className="text-center p-4 text-muted-foreground"
+                    >
                       No orders found for this date
                     </td>
                   </tr>

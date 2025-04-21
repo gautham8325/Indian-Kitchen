@@ -134,9 +134,9 @@ const OrderForm = () => {
     return (
       <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg print:shadow-none">
         <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-brand-orange">Swift Bites</h2>
-          <p className="text-sm text-gray-500">123 Food Street, Foodville</p>
-          <p className="text-sm text-gray-500">Tel: (123) 456-7890</p>
+          <h2 className="text-2xl font-bold text-brand-orange">Indian Kitchen</h2>
+          <p className="text-sm text-gray-500">SRM AP, Amravathi, 522503.</p>
+          <p className="text-sm text-gray-500">Tel: +91 6300129XXX</p>
         </div>
         
         <div className="mb-4 pb-2 border-b">

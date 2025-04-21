@@ -157,20 +157,18 @@ const LiveReports = () => {
             Last updated: {formatLastRefreshTime()}
           </span>
           <div className="flex gap-2">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="sm"
               onClick={() => setAutoRefresh(!autoRefresh)}
               className={autoRefresh ? "bg-green-50" : ""}
             >
               Auto Refresh: {autoRefresh ? "ON" : "OFF"}
             </Button>
-            <Button 
-              onClick={handleRefresh}
-              disabled={loading}
-              size="sm"
-            >
-              <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+            <Button onClick={handleRefresh} disabled={loading} size="sm">
+              <RefreshCw
+                className={`h-4 w-4 mr-2 ${loading ? "animate-spin" : ""}`}
+              />
               Refresh Now
             </Button>
           </div>
@@ -181,20 +179,26 @@ const LiveReports = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Today's Revenue</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Today's Revenue
+            </CardTitle>
             <DollarSign className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${liveStats.totalRevenue.toFixed(2)}</div>
+            <div className="text-2xl font-bold">
+              ₹{liveStats.totalRevenue.toFixed(2)}
+            </div>
             <p className="text-xs text-muted-foreground">
-              Avg. ${liveStats.averageOrderValue.toFixed(2)} per order
+              Avg. ₹{liveStats.averageOrderValue.toFixed(2)} per order
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Today's Orders</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Today's Orders
+            </CardTitle>
             <ShoppingBag className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
@@ -204,7 +208,7 @@ const LiveReports = () => {
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Active Orders</CardTitle>
@@ -215,7 +219,8 @@ const LiveReports = () => {
               {liveStats.pendingCount + liveStats.inProgressCount}
             </div>
             <p className="text-xs text-muted-foreground">
-              {liveStats.pendingCount} pending, {liveStats.inProgressCount} in progress
+              {liveStats.pendingCount} pending, {liveStats.inProgressCount} in
+              progress
             </p>
           </CardContent>
         </Card>
@@ -240,10 +245,15 @@ const LiveReports = () => {
                       outerRadius={80}
                       fill="#8884d8"
                       dataKey="value"
-                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      label={({ name, percent }) =>
+                        `${name} ${(percent * 100).toFixed(0)}%`
+                      }
                     >
                       {statusBreakdown.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
                       ))}
                     </Pie>
                     <Tooltip />
@@ -258,7 +268,7 @@ const LiveReports = () => {
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader>
             <CardTitle className="text-lg">Popular Items Today</CardTitle>
@@ -310,15 +320,34 @@ const LiveReports = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.filter(order => order.status === 'pending' || order.status === 'in-progress').length > 0 ? (
+                  {orders.filter(
+                    (order) =>
+                      order.status === "pending" ||
+                      order.status === "in-progress"
+                  ).length > 0 ? (
                     orders
-                      .filter(order => order.status === 'pending' || order.status === 'in-progress')
-                      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+                      .filter(
+                        (order) =>
+                          order.status === "pending" ||
+                          order.status === "in-progress"
+                      )
+                      .sort(
+                        (a, b) =>
+                          new Date(b.timestamp).getTime() -
+                          new Date(a.timestamp).getTime()
+                      )
                       .map((order) => (
                         <tr key={order.id} className="border-b">
                           <td className="p-2">{order.id.substring(0, 8)}</td>
-                          <td className="p-2">{new Date(order.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                          <td className="p-2">{order.customer?.name || 'Walk-in Customer'}</td>
+                          <td className="p-2">
+                            {new Date(order.timestamp).toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </td>
+                          <td className="p-2">
+                            {order.customer?.name || "Walk-in Customer"}
+                          </td>
                           <td className="p-2">
                             <ul className="list-disc list-inside">
                               {order.items.map((item, idx) => (
@@ -328,12 +357,21 @@ const LiveReports = () => {
                               ))}
                             </ul>
                           </td>
-                          <td className="text-right p-2">${order.totalAmount.toFixed(2)}</td>
+                          <td className="text-right p-2">
+                            ₹{order.totalAmount.toFixed(2)}
+                          </td>
                           <td className="p-2">
-                            <span className={cn("px-2 py-1 rounded-full text-xs font-medium", {
-                              "bg-yellow-100 text-yellow-800": order.status === 'pending',
-                              "bg-blue-100 text-blue-800": order.status === 'in-progress',
-                            })}>
+                            <span
+                              className={cn(
+                                "px-2 py-1 rounded-full text-xs font-medium",
+                                {
+                                  "bg-yellow-100 text-yellow-800":
+                                    order.status === "pending",
+                                  "bg-blue-100 text-blue-800":
+                                    order.status === "in-progress",
+                                }
+                              )}
+                            >
                               {order.status}
                             </span>
                           </td>
@@ -341,7 +379,10 @@ const LiveReports = () => {
                       ))
                   ) : (
                     <tr>
-                      <td colSpan={6} className="text-center p-4 text-muted-foreground">
+                      <td
+                        colSpan={6}
+                        className="text-center p-4 text-muted-foreground"
+                      >
                         No active orders at this time
                       </td>
                     </tr>

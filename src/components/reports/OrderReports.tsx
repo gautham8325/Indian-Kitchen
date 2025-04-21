@@ -191,7 +191,8 @@ const OrderReports = () => {
                 {dateRange.from ? (
                   dateRange.to ? (
                     <>
-                      {format(dateRange.from, "LLL dd, yyyy")} - {format(dateRange.to, "LLL dd, yyyy")}
+                      {format(dateRange.from, "LLL dd, yyyy")} -{" "}
+                      {format(dateRange.to, "LLL dd, yyyy")}
                     </>
                   ) : (
                     format(dateRange.from, "LLL dd, yyyy")
@@ -216,11 +217,13 @@ const OrderReports = () => {
               />
             </PopoverContent>
           </Popover>
-          
+
           <div className="flex gap-2">
             <Select
               value={statusFilter}
-              onValueChange={(value) => setStatusFilter(value as OrderStatus | 'all')}
+              onValueChange={(value) =>
+                setStatusFilter(value as OrderStatus | "all")
+              }
             >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Filter by status" />
@@ -233,13 +236,13 @@ const OrderReports = () => {
                 <SelectItem value="cancelled">Cancelled</SelectItem>
               </SelectContent>
             </Select>
-            
+
             <Button onClick={fetchOrders} disabled={loading}>
-              {loading ? 'Loading...' : 'Apply Filters'}
+              {loading ? "Loading..." : "Apply Filters"}
             </Button>
           </div>
         </div>
-        
+
         <div className="flex gap-2">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -250,9 +253,9 @@ const OrderReports = () => {
               className="pl-10"
             />
           </div>
-          
-          <Button 
-            variant="outline" 
+
+          <Button
+            variant="outline"
             onClick={downloadReport}
             disabled={filteredOrders.length === 0}
           >
@@ -261,7 +264,7 @@ const OrderReports = () => {
           </Button>
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="pb-2">
@@ -276,23 +279,28 @@ const OrderReports = () => {
             <CardTitle className="text-sm font-medium">Total Sales</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${calculateTotalSales().toFixed(2)}</div>
+            <div className="text-2xl font-bold">
+              ₹{calculateTotalSales().toFixed(2)}
+            </div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Average Order Value</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Average Order Value
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              ${filteredOrders.length > 0 
-                ? (calculateTotalSales() / filteredOrders.length).toFixed(2) 
-                : '0.00'}
+              ₹
+              {filteredOrders.length > 0
+                ? (calculateTotalSales() / filteredOrders.length).toFixed(2)
+                : "0.00"}
             </div>
           </CardContent>
         </Card>
       </div>
-      
+
       <Card>
         <CardHeader>
           <CardTitle>Order Details</CardTitle>
@@ -321,13 +329,19 @@ const OrderReports = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredOrders.map(order => (
+                  {filteredOrders.map((order) => (
                     <TableRow key={order.id}>
-                      <TableCell className="font-mono text-xs">{order.id.substring(0, 8)}...</TableCell>
-                      <TableCell>{new Date(order.timestamp).toLocaleDateString()}</TableCell>
-                      <TableCell>{order.customer?.name || 'Walk-in'}</TableCell>
+                      <TableCell className="font-mono text-xs">
+                        {order.id.substring(0, 8)}...
+                      </TableCell>
+                      <TableCell>
+                        {new Date(order.timestamp).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell>{order.customer?.name || "Walk-in"}</TableCell>
                       <TableCell>{order.items.length} items</TableCell>
-                      <TableCell className="text-right">${order.totalAmount.toFixed(2)}</TableCell>
+                      <TableCell className="text-right">
+                        ₹{order.totalAmount.toFixed(2)}
+                      </TableCell>
                       <TableCell>
                         <Badge variant={getStatusBadgeVariant(order.status)}>
                           {order.status}

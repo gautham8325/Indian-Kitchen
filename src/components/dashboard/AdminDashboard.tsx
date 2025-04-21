@@ -105,16 +105,20 @@ const AdminDashboard = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-        <Button 
-          onClick={downloadSalesReport} 
+        <Button
+          onClick={downloadSalesReport}
           variant="outline"
           disabled={downloadingReport}
         >
-          <Download className={`h-4 w-4 mr-2 ${downloadingReport ? 'animate-spin' : ''}`} />
+          <Download
+            className={`h-4 w-4 mr-2 ${
+              downloadingReport ? "animate-spin" : ""
+            }`}
+          />
           Download Sales Report
         </Button>
       </div>
-      
+
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
@@ -129,20 +133,20 @@ const AdminDashboard = () => {
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${totalRevenue.toFixed(2)}</div>
+            <div className="text-2xl font-bold">₹{totalRevenue.toFixed(2)}</div>
             <p className="text-xs text-muted-foreground">
               From {orders.length} orders
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Menu Items</CardTitle>
@@ -155,7 +159,7 @@ const AdminDashboard = () => {
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Top Category</CardTitle>
@@ -163,10 +167,13 @@ const AdminDashboard = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {Object.entries(categories).sort((a, b) => b[1] - a[1])[0]?.[0] || 'N/A'}
+              {Object.entries(categories).sort((a, b) => b[1] - a[1])[0]?.[0] ||
+                "N/A"}
             </div>
             <p className="text-xs text-muted-foreground">
-              {Object.entries(categories).sort((a, b) => b[1] - a[1])[0]?.[1] || 0} items
+              {Object.entries(categories).sort((a, b) => b[1] - a[1])[0]?.[1] ||
+                0}{" "}
+              items
             </p>
           </CardContent>
         </Card>
@@ -179,29 +186,45 @@ const AdminDashboard = () => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Order ID
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Date
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Customer
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Amount
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Status
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {recentOrders.length > 0 ? (
                 recentOrders.map((order) => (
                   <tr key={order.id}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{order.id}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {order.id}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {new Date(order.timestamp).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {order.customer?.name || 'Walk-in Customer'}
+                      {order.customer?.name || "Walk-in Customer"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      ${order.totalAmount.toFixed(2)}
+                      ₹{order.totalAmount.toFixed(2)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(order.status)}`}>
+                      <span
+                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(
+                          order.status
+                        )}`}
+                      >
                         {order.status}
                       </span>
                     </td>
@@ -209,7 +232,10 @@ const AdminDashboard = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={5} className="px-6 py-4 text-center text-sm text-gray-500">
+                  <td
+                    colSpan={5}
+                    className="px-6 py-4 text-center text-sm text-gray-500"
+                  >
                     No orders yet
                   </td>
                 </tr>
