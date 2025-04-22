@@ -3,7 +3,7 @@
 ## Project info
 
 **URL**: 
-
+https://indian-kitchen-gautham8325s-projects.vercel.app
 ## How can I edit this code?
 
 There are several ways of editing your application.
